@@ -20,16 +20,15 @@ def get_smallest_bar(parsed_data) -> str:
 
 
 def get_closest_bar(parsed_data) -> str:
+    def distanse(coordinates) -> float: return math.sqrt((coordinates[0] - longitude) ** 2 + (coordinates[1] - latitude) ** 2)
+
     longitude = float(sys.argv[2]) if sys.argv[2] else 0
     latitude = float(sys.argv[3]) if sys.argv[2] else 0
-
-    def distanse(coordinates): return math.sqrt((coordinates[0] - longitude)**2 + (coordinates[1] - latitude)**2)
 
     return min(parsed_data['features'],
                key=lambda x: distanse(x['geometry']['coordinates']))['properties']['Attributes']['Name']
 
-
-if __name__ == '__main__':
+def print_3bars():
     try:
         print('Самый большой бар: ', get_biggest_bar(load_data(sys.argv[1])))
         print('Самый маленький бар: ', get_smallest_bar(load_data(sys.argv[1])))
@@ -42,3 +41,6 @@ if __name__ == '__main__':
         print('Указанный файл не в формате json')
     except ValueError:
         print('Неверно указаны параметры ширины и долготы')
+
+if __name__ == '__main__':
+    print_3bars()
